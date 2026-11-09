@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142b28">
+  <meta name="description" content="Importa, controlla ed esporta i tuoi allenamenti, sul tuo computer.">
+  <title>FIT Studio</title>
+  <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <svg class="icon-defs" aria-hidden="true"><defs>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-export" viewBox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4M5 15v5h14v-5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m-4 4 4-4 4 4M4 16v4h16v-4"/></symbol>
+    <symbol id="i-run" viewBox="0 0 24 24"><circle cx="15" cy="4" r="2"/><path d="m12 8 4 3 4-1M5 11l5-3 3 6-4 3-2 5m6-8 4 3 1 5"/></symbol>
+    <symbol id="i-swim" viewBox="0 0 24 24"><circle cx="18" cy="7" r="2"/><path d="m5 13 7-5 4 4M8 5l4 3M2 17q2-2 5 0t5 0 5 0 5 0M2 21q2-2 5 0t5 0 5 0 5 0"/></symbol>
+    <symbol id="i-bike" viewBox="0 0 24 24"><circle cx="5" cy="16" r="4"/><circle cx="19" cy="16" r="4"/><path d="m5 16 5-9 5 9H5m5-9h6l3 9M8 4h4m3-1h3l1 4"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20 5c-3-3-6-1-8 1-2-2-5-4-8-1-6 6 8 15 8 15S26 11 20 5Z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-distance" viewBox="0 0 24 24"><path d="M4 18V6m16 12V6M4 12h16m-12-4-4 4 4 4m8-8 4 4-4 4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="m12 3 10 18H2L12 3Zm0 6v5m0 3v.1"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H5v20h14V7l-5-5Zm0 0v6h5M8 12h8m-8 4h6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7V4h6l3 3h9v13H3V7Z"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z"/></symbol>
+  </defs></svg>
+
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="FIT Studio, home"><span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 23 12 9l5 9 4-7 6 12"/></svg></span><span>FIT <b>Studio</b><small>ARCHIVIO LOCALE</small></span></a>
+
+    <nav aria-label="Navigazione principale">
+      <button class="nav-item active" id="nav-library" aria-current="page"><svg><use href="#i-grid"/></svg>Archivio<span id="nav-count" class="nav-count">0</span></button>
+      <button class="nav-item" id="nav-export"><svg><use href="#i-export"/></svg>Esporta<span class="nav-arrow">↗</span></button>
+    </nav>
+    <div class="sidebar-note"><span class="note-dot"></span><strong>Archivio temporaneo</strong><p>I dati restano in memoria. Esporta prima di chiudere il server.</p></div>
+    <div class="local-status"><span class="status-dot"></span><div>Sessione locale<small>FIT Studio · v0.1</small></div><svg><use href="#i-lock"/></svg></div>
+  </aside>
+
+  <main>
+    <header class="topbar"><span class="breadcrumb">FIT Studio <span>/</span> <b id="breadcrumb-page">Archivio</b></span><span class="privacy-label"><svg><use href="#i-lock"/></svg>Locale</span></header>
+    <div class="page">
+      <section id="library-view">
+        <div class="page-heading"><div><h1>Allenamenti</h1><p class="page-description">Importa FIT e JSON, controlla i dati ed esporta le sessioni.</p></div><div class="heading-actions"><button class="button button-quiet" id="demo-button"><svg><use href="#i-spark"/></svg>Carica esempio</button><button class="button button-dark" id="import-button"><svg><use href="#i-plus"/></svg>Importa file</button></div></div>
+
+        <div id="drop-zone" class="drop-zone" role="region" aria-label="Importazione allenamenti">
+          <div class="drop-illustration"><span class="paper paper-back"></span><span class="paper paper-front"><svg><use href="#i-upload"/></svg></span></div>
+          <div class="drop-copy"><h2>Importa file o cartelle</h2><p>Trascina qui i file o seleziona una cartella.</p><div class="file-tags"><span>.FIT</span><span>.JSON</span><span>.JSONL</span></div></div>
+          <button class="button button-outline" id="folder-button"><svg><use href="#i-folder"/></svg>Scegli cartella</button>
+        </div>
+        <input type="file" id="file-input" multiple accept=".fit,.json,.jsonl,.ndjson" hidden>
+        <input type="file" id="folder-input" multiple webkitdirectory hidden>
+        <div id="import-progress" class="import-progress" role="status" hidden><span class="spinner"></span><span id="import-progress-text">Importazione…</span></div>
+        <div id="import-report" class="import-report" hidden></div>
+
+        <div class="stats-grid" id="stats-grid">
+          <article class="stat-card"><div><span>Allenamenti</span><svg><use href="#i-grid"/></svg></div><strong id="stat-count">—</strong><small id="stat-count-note">Sessioni importate</small></article>
+          <article class="stat-card"><div><span>Distanza</span><svg><use href="#i-distance"/></svg></div><strong id="stat-distance">—</strong><small id="stat-distance-note">Distanze registrate</small></article>
+          <article class="stat-card"><div><span>Tempo attivo</span><svg><use href="#i-clock"/></svg></div><strong id="stat-time">—</strong><small id="stat-time-note">Pause escluse, se dichiarate</small></article>
+          <article class="stat-card stat-accent"><div><span>Discipline</span><svg><use href="#i-run"/></svg></div><strong id="stat-sports">—</strong><small id="stat-sports-note">Sport importati</small></article>
+        </div>
+
+        <section class="overview-charts" id="overview-charts" aria-label="Grafici riepilogativi" hidden>
+          <article class="overview-chart-card"><div class="overview-chart-heading"><h2>Distanza per sessione</h2><span id="distance-chart-note">km</span></div><div id="distance-chart"></div></article>
+          <article class="overview-chart-card"><div class="overview-chart-heading"><h2>Tempo per sport</h2><span id="sport-chart-total"></span></div><div id="sport-chart"></div></article>
+        </section>
+
+        <div class="workspace-grid" id="workspace-grid">
+          <section class="library-card" aria-labelledby="library-title">
+            <div class="section-heading"><div><h2 id="library-title">Sessioni <span id="list-count">0</span></h2><p id="list-subtitle"></p></div><button class="text-button" id="export-selection">Esporta <span id="selection-count">0</span><svg><use href="#i-arrow"/></svg></button></div>
+            <div class="filters"><label class="search-field"><svg><use href="#i-search"/></svg><input id="search-input" type="search" placeholder="Cerca una sessione" aria-label="Cerca una sessione"></label><select id="sport-filter" aria-label="Filtra per sport"><option value="">Tutti gli sport</option></select><button class="filter-toggle" id="date-toggle" aria-expanded="false">Date <span>⌄</span></button></div>
+            <div class="date-filters" id="date-filters" hidden><label>Dal<input type="date" id="date-from"></label><label>Al<input type="date" id="date-to"></label><button class="text-button" id="clear-filters">Azzera filtri</button></div>
+            <div class="table-wrap" id="workout-table-wrap"><table class="workout-table"><thead><tr><th class="check-cell"><input type="checkbox" id="select-all" aria-label="Seleziona tutte le sessioni filtrate"></th><th>SESSIONE</th><th>DISTANZA</th><th>TEMPO</th><th class="status-column">DATI</th></tr></thead><tbody id="workout-rows"></tbody></table></div>
+            <div class="empty-library" id="empty-library"><div class="empty-orbit"><svg><use href="#i-grid"/></svg></div><h3>Nessun allenamento</h3><p>Importa file o carica i dati di esempio.</p><button class="text-button" id="empty-demo">Carica esempio<svg><use href="#i-arrow"/></svg></button></div>
+            <div id="empty-filter" class="empty-filter" hidden>Nessuna sessione corrisponde ai filtri.</div>
+            <div class="library-footer"><span id="table-footer">In attesa del primo allenamento</span><button class="text-button" id="load-more" hidden>Mostra altri</button></div>
+          </section>
+          <aside class="detail-card" id="detail-card" aria-label="Dettaglio allenamento"><div class="detail-placeholder"><div class="preview-lines"><span></span><span></span><span></span><svg viewBox="0 0 260 100" aria-hidden="true"><path d="m0 74 22-8 12 14 19-46 16 20 19-26 13 39 25-14 18 8 15-39 20 16 17-12 20 22 24-9"/></svg></div><h3>Seleziona un allenamento</h3><p>Misure, grafici e lap.</p></div></aside>
+        </div>
+
+      </section>
+
+      <section id="export-view" hidden>
+        <div class="page-heading"><div><h1>Esporta</h1><p class="page-description">Scegli il formato e i dati da includere.</p></div><button class="button button-outline" id="back-library">← Torna all’archivio</button></div>
+        <div class="export-layout"><div class="export-options">
+          <section class="panel"><div class="panel-number">01</div><h2>Selezione</h2><p id="export-summary">Seleziona gli allenamenti nell’archivio.</p><div id="export-sport-summary" class="export-sport-summary"></div><button class="text-button" id="change-selection">Modifica selezione<svg><use href="#i-arrow"/></svg></button></section>
+          <section class="panel"><div class="panel-number">02</div><h2>Dettaglio</h2><label class="profile-option"><input type="radio" name="profile" value="compact" checked><span><strong>Compatto per AI</strong><small>Sessioni, lap, unità e qualità.</small></span></label><label class="profile-option"><input type="radio" name="profile" value="detailed"><span><strong>Dettagliato</strong><small>Aggiunge campioni e dati sorgente decodificati.</small></span></label></section>
+          <section class="panel"><div class="panel-number">03</div><h2>Formato e contenuto</h2><div class="format-options"><label><input type="radio" name="format" value="json" checked><span>JSON <small>Un archivio unico</small></span></label><label><input type="radio" name="format" value="jsonl"><span>JSONL <small>Una seduta per riga</small></span></label></div><label class="toggle-option"><span><strong>Includi coordinate GPS</strong><small>Quando presenti nei dati selezionati.</small></span><input type="checkbox" id="include-gps" role="switch"></label><label class="toggle-option"><span><strong>Includi identificativi</strong><small>Nomi file, UUID e altri campi identificativi conosciuti.</small></span><input type="checkbox" id="include-identifiers" role="switch"></label><p class="option-note">L’esclusione di questi campi non anonimizza i dati.</p></section>
+        </div><section class="export-preview panel"><div class="preview-header"><div><span class="eyebrow">ANTEPRIMA EXPORT</span><h2 id="export-filename">fit-studio-compact.json</h2></div><span id="export-size" class="size-pill">—</span></div><div class="preview-legend"><span class="status-dot"></span><span id="preview-status">Seleziona almeno una sessione</span></div><pre id="json-preview" tabindex="0" aria-label="Anteprima del file esportato">L’anteprima apparirà qui.</pre><p id="preview-truncated" class="option-note" hidden>Anteprima abbreviata. Il download contiene il file completo.</p><div class="export-bottom"><div><strong id="export-count">0 allenamenti</strong><small>Download diretto sul tuo computer</small></div><button id="download-button" class="button button-dark" disabled><svg><use href="#i-export"/></svg>Scarica export</button></div></section></div>
+
+      </section>
+    </div>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
