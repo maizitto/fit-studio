@@ -6,7 +6,7 @@ For about a year, I have been using my own export workflow to turn my workouts i
 
 The dashboard is new; it builds on that existing export workflow. Import your files, check the sessions and splits, then take the exported data to the AI assistant you already use.
 
-![FIT Studio dashboard](preview.jpg)
+<img src="preview.jpg?raw=true" alt="FIT Studio dashboard" width="1200">
 
 *The screenshot uses synthetic example workouts. The current interface is in Italian.*
 
